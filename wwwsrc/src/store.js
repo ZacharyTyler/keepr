@@ -6,7 +6,7 @@ import AuthService from './AuthService'
 
 Vue.use(Vuex)
 
-let baseUrl = location.host.includes('localhost') ? '//localhost:5000/' : '/'
+let baseUrl = location.host.includes('localhost') ? 'https://localhost:5001/' : '/'
 
 let api = Axios.create({
   baseURL: baseUrl + "api/",
@@ -16,7 +16,8 @@ let api = Axios.create({
 
 export default new Vuex.Store({
   state: {
-    user: {}
+    user: {},
+    keeps: []
   },
   mutations: {
     setUser(state, user) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     resetState(state) {
       //clear the entire state object of user data
       state.user = {}
+    },
+    setKeeps(state, keeps) {
+      state.keeps = keeps
     }
   },
   actions: {
@@ -52,6 +56,15 @@ export default new Vuex.Store({
         if (!success) { }
         commit('resetState')
         router.push({ name: "login" })
+      } catch (e) {
+        console.warn(e.message)
+      }
+    },
+
+    async getKeeps({ commit }) {
+      try {
+        let keeps = await api.get("/keeps/")
+        commit('setKeeps', keeps.data)
       } catch (e) {
         console.warn(e.message)
       }

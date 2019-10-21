@@ -1,17 +1,36 @@
 <template>
   <div class="home">
-    <h1>Welcome Home {{user.username}}</h1>
+    <h1>Welcome to Keepr, {{user.username}}</h1>
     <button v-if="user.id" @click="logout">logout</button>
     <router-link v-else :to="{name: 'login'}">Login</router-link>
+    <router-link :to="{name: 'dashboard'}">My DashBoard</router-link>
+    <div class="row">
+      <div class="col-3 pt-4 border m-5 pb-2" v-for="keep in keeps" :key="keep.id">
+        <img :src="`${keep.img}`" />
+        <h3>{{keep.description}}</h3>
+        <button class="btn-primary">
+          <h4>View: {{keep.views}}</h4>
+        </button>
+        <button class="btn-primary">
+          <h4>Keeps: {{keep.keeps}}</h4>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "home",
+  mounted() {
+    this.$store.dispatch("getKeeps");
+  },
   computed: {
     user() {
       return this.$store.state.user;
+    },
+    keeps() {
+      return this.$store.state.keeps;
     }
   },
   methods: {

@@ -13,10 +13,11 @@ namespace keepr.Repositories
     {
       _db = db;
     }
-    public IEnumerable<Vault> Get()
+    public IEnumerable<Vault> Get(string id)
     {
-      string sql = "SELECT * FROM vaults";
-      return _db.Query<Vault>(sql);
+      // FIXME This needs to get only the vaults of the currently signed in user
+      string sql = "SELECT * FROM vaults WHERE UserId = @id";
+      return _db.Query<Vault>(sql, new { id });
     }
 
     public int Create(Vault newVault)

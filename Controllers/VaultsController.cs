@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using keepr.Models;
 using keepr.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -16,12 +17,14 @@ namespace keepr.Controllers
     {
       _ks = ks;
     }
+    [Authorize]
     [HttpGet]
     public ActionResult<IEnumerable<Vault>> Get()
     {
       try
       {
-        return Ok(_ks.Get());
+        string UserId = HttpContext.User.FindFirstValue("Id");
+        return Ok(_ks.Get(UserId));
       }
       catch (Exception e)
       {
