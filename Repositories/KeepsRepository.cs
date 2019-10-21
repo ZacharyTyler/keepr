@@ -59,7 +59,7 @@ namespace keepr.Repositories
 
     public void Delete(int id)
     {
-      string sql = "DELETE FROM keeps WHERE id = @id";
+      string sql = "DELETE FROM keeps WHERE Id = @id";
       _db.Execute(sql, new { id });
     }
   }
