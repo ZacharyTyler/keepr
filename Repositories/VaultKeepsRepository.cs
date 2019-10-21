@@ -33,13 +33,8 @@ namespace keepr.Repositories
 
     public void Edit(VaultKeep vaultKeep)
     {
-      string sql = @"
-            UPDATE vaultKeeps
-            SET
-                vaultId = @VaultId,
-                keepId = @KeepId,
-                userId = @UserId
-            WHERE id = @Id";
+
+      string sql = "DELETE FROM vaultKeeps WHERE KeepId = @KeepId AND VaultId = @VaultId";
       _db.Execute(sql, vaultKeep);
     }
 
