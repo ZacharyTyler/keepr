@@ -17,7 +17,9 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
-    keeps: []
+    keeps: [],
+    vaults: [],
+    vaultKeeps: [],
   },
   mutations: {
     setUser(state, user) {
@@ -27,11 +29,19 @@ export default new Vuex.Store({
       //clear the entire state object of user data
       state.user = {}
     },
-    setKeeps(state, keeps) {
-      state.keeps = keeps
+    setKeeps(state, payload) {
+      state.keeps = payload
+    },
+    setVaults(state, payload) {
+      state.vaults = payload
+    },
+    setVaultKeeps(state, payload) {
+      state.vaultKeeps = payload
     }
   },
   actions: {
+    //SECTION Login
+
     async register({ commit, dispatch }, creds) {
       try {
         let user = await AuthService.Register(creds)
@@ -60,7 +70,9 @@ export default new Vuex.Store({
         console.warn(e.message)
       }
     },
+    //!SECTION 
 
+    //SECTION Keeps
     async getKeeps({ commit }) {
       try {
         let keeps = await api.get("/keeps/")
@@ -70,9 +82,37 @@ export default new Vuex.Store({
       }
     },
     async plusOne({ commit, dispatch }, payload) {
+      try {
+        let keeps = await api.put("/keeps/" + payload.id, payload)
+        dispatch("getKeeps")
+      } catch (e) {
+        console.warn(e.message)
+      }
 
-      let keeps = await api.put("/keeps/" + payload.id, payload)
-      dispatch("getKeeps")
+    },
+
+    //!SECTION 
+
+    //SECTION Vaults
+    async getVaultsByUser({ commit }) {
+      try {
+        let vaults = await api.get("/vaults/")
+        commit("setVaults", vaults.data)
+      } catch (e) {
+        console.warn(e.message)
+      }
+    },
+    async getKeepsByVaultId({ commit }, payload) {
+      try {
+
+        let keeps = await api.get("/vaultkeeps/" + payload)
+        commit("setVaultKeeps", keeps.data)
+      } catch (e) {
+        console.warn(e.message)
+      }
+
     }
+    //!SECTION 
+
   }
 })

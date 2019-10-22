@@ -17,16 +17,16 @@ namespace keepr.Controllers
       _ks = ks;
     }
 
-    [HttpGet("{id}")]
-    public ActionResult<IEnumerable<VaultKeep>> Get(int id)
+    [HttpGet("{vaultId}")]
+    public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
       try
       {
-        return Ok(_ks.Get(id));
+        string UserId = HttpContext.User.FindFirstValue("Id");
+        return Ok(_ks.Get(vaultId, UserId));
       }
       catch (Exception e)
       {
-
         return BadRequest(e.Message);
       }
     }

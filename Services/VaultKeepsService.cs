@@ -22,11 +22,20 @@ namespace keepr.Services
       return newVaultKeep;
     }
 
-    public IEnumerable<VaultKeep> Get(int id)
+    public IEnumerable<Keep> Get(int vaultId, string userId)
     {
-      return _repo.Get(id);
+      IEnumerable<VaultKeep> vaultKeep = _repo.Get(vaultId);
+      if (vaultKeep == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+
+      var data = _repo.GetKeepByVaultId(vaultId, userId);
+      return data;
 
     }
+
+
 
     public VaultKeep Edit(VaultKeep newVaultKeep)
     {
