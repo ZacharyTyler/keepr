@@ -68,6 +68,11 @@ export default new Vuex.Store({
       } catch (e) {
         console.warn(e.message)
       }
+    },
+    async plusOne({ commit, dispatch }, payload) {
+
+      let keeps = await api.put("/keeps/" + payload.id, payload)
+      dispatch("getKeeps")
     }
   }
 })

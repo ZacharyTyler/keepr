@@ -8,9 +8,15 @@
       <div class="col-3 pt-4 border m-5 pb-2" v-for="keep in keeps" :key="keep.id">
         <img :src="`${keep.img}`" />
         <h3>{{keep.description}}</h3>
-        <button class="btn-primary">
+        <button
+          class="btn-primary views-button"
+          data-toggle="modal"
+          data-target="#viewModal"
+          @click="plusOne(keep)"
+        >
           <h4>View: {{keep.views}}</h4>
         </button>
+        <viewModal :keepProp="keep" />
         <button class="btn-primary">
           <h4>Keeps: {{keep.keeps}}</h4>
         </button>
@@ -20,8 +26,12 @@
 </template>
 
 <script>
+import viewModal from "../Components/ViewModal";
 export default {
   name: "home",
+  data() {
+    return {};
+  },
   mounted() {
     this.$store.dispatch("getKeeps");
   },
@@ -36,7 +46,14 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
+    },
+    plusOne(keep) {
+      keep.views = keep.views + 1;
+      this.$store.dispatch("plusOne", keep);
     }
+  },
+  components: {
+    viewModal
   }
 };
 </script>
