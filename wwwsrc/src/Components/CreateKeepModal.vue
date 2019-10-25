@@ -45,9 +45,9 @@
                     />
                   </div>
                 </div>
-
+                <br />
                 <div class="row justify-content-center">
-                  <h3>Private Status:</h3>
+                  <p class="mr-2">Private Status:</p>
                   <div class="custom-control custom-radio">
                     <input
                       type="radio"
@@ -82,7 +82,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 export default {

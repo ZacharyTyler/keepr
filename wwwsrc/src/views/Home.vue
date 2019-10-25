@@ -26,7 +26,7 @@
             <br />
             <div class="dropdown" v-if="user.id">
               <button
-                class="btn btn-secondary dropdown-toggle"
+                class="btn btn-secondary"
                 type="button"
                 id="dropdownMenuButton"
                 data-toggle="dropdown"
