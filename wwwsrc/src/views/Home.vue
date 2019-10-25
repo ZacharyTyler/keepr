@@ -1,9 +1,16 @@
 <template>
   <div class="home">
     <h1>Welcome to Keepr, {{user.username}}</h1>
-    <button v-if="user.id" @click="logout">logout</button>
-    <router-link v-else :to="{name: 'login'}">Login</router-link>
-    <router-link :to="{name: 'dashboard'}">My DashBoard</router-link>
+    <div class="row float justify-content-center">
+      <button v-if="user.id" @click="logout">logout</button>
+      <router-link v-else :to="{name: 'login'}">Login</router-link>
+      <span v-if="user.id">
+        <p class="pl-2 pr-2 float justify-content-center">|</p>
+      </span>
+      <span v-if="user.id">
+        <router-link :to="{name: 'dashboard'}">My DashBoard</router-link>
+      </span>
+    </div>
     <div class="row">
       <div class="col-3 pt-4 border m-5 pb-2" v-for="keep in keeps" :key="keep.id">
         <img :src="`${keep.img}`" />
@@ -17,9 +24,25 @@
           <h4>View: {{keep.views}}</h4>
         </button>
         <viewModal :keepProp="keep" />
-        <button class="btn-primary">
-          <h4>Keeps: {{keep.keeps}}</h4>
-        </button>
+
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+          >
+            <h4>Keeps: {{keep.keeps}}</h4>
+          </button>
+          <div class="dropdown-menu">
+            <div
+              class="dropdown-item"
+              v-for="vault in vaults"
+              :key="vault.id"
+              @click="addKeep(keep, vault.id)"
+            >{{vault.name}}</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -34,6 +57,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getKeeps");
+    this.$store.dispatch("getVaultsByUser");
   },
   computed: {
     user() {
@@ -41,6 +65,9 @@ export default {
     },
     keeps() {
       return this.$store.state.keeps;
+    },
+    vaults() {
+      return this.$store.state.vaults;
     }
   },
   methods: {
@@ -49,6 +76,15 @@ export default {
     },
     plusOne(keep) {
       keep.views = keep.views + 1;
+      this.$store.dispatch("plusOne", keep);
+    },
+    addKeep(keep, vaultId) {
+      let payload = {
+        keepId: keep.id,
+        vaultId: vaultId
+      };
+      this.$store.dispatch("addKeep", payload);
+      keep.keeps = keep.keeps + 1;
       this.$store.dispatch("plusOne", keep);
     }
   },

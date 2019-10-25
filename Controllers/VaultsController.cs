@@ -23,8 +23,9 @@ namespace keepr.Controllers
     {
       try
       {
-        string UserId = HttpContext.User.FindFirstValue("Id");
-        return Ok(_ks.Get(UserId));
+
+        string userId = HttpContext.User.FindFirstValue("Id");
+        return Ok(_ks.Get(userId));
       }
       catch (Exception e)
       {
@@ -32,6 +33,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public ActionResult<Vault> Get(int id)
     {
@@ -46,6 +48,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpPost]
     public ActionResult<Vault> Create([FromBody] Vault newVault)
     {
@@ -61,6 +64,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public ActionResult<Vault> Delete(int id)
     {

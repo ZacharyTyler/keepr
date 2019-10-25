@@ -9,6 +9,7 @@
                 <h3>{{vaultKeep.name}}</h3>
                 <img :src="vaultKeep.img" />
                 <h3>{{vaultKeep.description}}</h3>
+                <button class="btn-danger" @click="deleteVaultKeep(vaultKeep.id)">X</button>
               </div>
             </div>
           </div>
@@ -21,13 +22,22 @@
 export default {
   name: "vaultModal",
   props: ["vaultIdProp"],
-  mounted() {
-    // this.$store.dispatch("getKeepsByVaultId", this.vaultIdProp);
+  mounted() {},
+  methods: {
+    deleteVaultKeep(vaultKeepId) {
+      let payload = {
+        vaultId: this.vault.id,
+        keepId: vaultKeepId
+      };
+      this.$store.dispatch("deleteVaultKeepById", payload);
+    }
   },
-  methods: {},
   computed: {
     vaultKeeps() {
       return this.$store.state.vaultKeeps;
+    },
+    vault() {
+      return this.$store.state.vault;
     }
   }
 };

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using keepr.Models;
 using keepr.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -17,6 +18,7 @@ namespace keepr.Controllers
       _ks = ks;
     }
 
+    [Authorize]
     [HttpGet("{vaultId}")]
     public ActionResult<IEnumerable<Keep>> Get(int vaultId)
     {
@@ -31,6 +33,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpPost]
     public ActionResult<VaultKeep> Create([FromBody] VaultKeep newVaultKeep)
     {
@@ -46,6 +49,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpPut]
     public ActionResult<VaultKeep> Edit([FromBody] VaultKeep newVaultKeep, int id)
     {

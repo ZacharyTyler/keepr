@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using keepr.Models;
 using keepr.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace keepr.Controllers
@@ -43,6 +44,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpGet("user")]
     public ActionResult<IEnumerable<Keep>> GetKeepsByUser()
     {
@@ -57,6 +59,8 @@ namespace keepr.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    [Authorize]
     [HttpPost]
     public ActionResult<Keep> Create([FromBody] Keep newKeep)
     {
@@ -71,6 +75,8 @@ namespace keepr.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    [Authorize]
     [HttpPut("{id}")]
     public ActionResult<Keep> Edit([FromBody] Keep newKeep, int id)
     {
@@ -86,6 +92,7 @@ namespace keepr.Controllers
       }
     }
 
+    [Authorize]
     [HttpDelete("{id}")]
     public ActionResult<Keep> Delete(int id)
     {
