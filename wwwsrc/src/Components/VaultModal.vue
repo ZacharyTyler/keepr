@@ -2,15 +2,13 @@
   <div id="vaultModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-body">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-4" v-for="vaultKeep in vaultKeeps" :key="vaultKeep.id">
-                <h3>{{vaultKeep.name}}</h3>
-                <img :src="vaultKeep.img" />
-                <h3>{{vaultKeep.description}}</h3>
-                <button class="btn-danger" @click="deleteVaultKeep(vaultKeep.id)">X</button>
-              </div>
+        <div class="row justify-content-center">
+          <div class="col-3 m-2" v-for="vaultKeep in vaultKeeps" :key="vaultKeep.id">
+            <div class="modal-body">
+              <h5>{{vaultKeep.name}}</h5>
+              <img class="imgSmall" :src="vaultKeep.img" />
+              <p>{{vaultKeep.description}}</p>
+              <button class="btn-danger" @click="deleteVaultKeep(vaultKeep.id)">X</button>
             </div>
           </div>
         </div>
@@ -42,3 +40,8 @@ export default {
   }
 };
 </script>
+<style>
+.imgSmall {
+  max-width: 140px;
+}
+</style>

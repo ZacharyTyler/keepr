@@ -32,7 +32,11 @@
                     />
                   </div>
                 </div>
-                <button class="register-button" data-dismiss="modal">submit</button>
+                <button
+                  class="register-button"
+                  data-dismiss="modal"
+                  @click="createNewVault()"
+                >submit</button>
               </form>
             </div>
           </div>

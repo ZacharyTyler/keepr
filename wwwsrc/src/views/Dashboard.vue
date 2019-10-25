@@ -1,28 +1,30 @@
 <template>
   <div class="dashboard">
-    <div class="row">
-      <div class="col-12">
-        <h1>DashBoard</h1>
-        <router-link :to="{name: 'home'}">Home</router-link>
-      </div>
+    <h1>Dashboard</h1>
+    <div class="row float justify-content-center align-items-top">
+      <button class="btn btn-link" @click="logout">Logout</button>
+      <p v-if="user.id" class="pl-1 pr-2 float justify-content-center mt-3">|</p>
+      <router-link class="mt-3 ml-2" v-if="user.id" :to="{name: 'home'}">Home</router-link>
     </div>
     <hr />
     <br />
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2>Vaults</h2>
+        <h2>
+          <u>Vaults</u>
+        </h2>
       </div>
-      <div class="col-3 m-3 border p-2" v-for="vault in vaults" :key="vault.id">
+      <div class="col-3 m-3 border border-dark p-2" v-for="vault in vaults" :key="vault.id">
         <h3>{{vault.name}}</h3>
         <h3>{{vault.description}}</h3>
-        <button class="btn-danger" @click="deleteVault(vault.id)">X</button>
 
         <button
-          class="btn-primary vault-button"
+          class="btn-primary vault-button mr-2"
           data-toggle="modal"
           data-target="#vaultModal"
           @click="getKeepsByVaultId(vault.id), getVault(vault.id)"
         >Open Vault</button>
+        <button class="btn-danger" @click="deleteVault(vault.id)">X</button>
         <vaultModal :vaultIdProp="vault.id" />
       </div>
 
@@ -35,14 +37,18 @@
     <br />
     <div class="row justify-content-center">
       <div class="col-12">
-        <h2>Keeps</h2>
+        <h2>
+          <u>Keeps</u>
+        </h2>
       </div>
-      <div class="col-3 m-3 border p-2" v-for="keep in userKeeps" :key="keep.id">
+      <div class="col-3 m-3 border border-dark p-2" v-for="keep in userKeeps" :key="keep.id">
         <h3>{{keep.name}}</h3>
         <h3>{{keep.description}}</h3>
         <img :src="keep.img" />
         <br />
         <br />
+        <h3>Views: {{keep.views}}</h3>
+        <h3>Keeps: {{keep.keeps}}</h3>
         <button class="btn-danger" @click="deleteKeep(keep.id)">X</button>
       </div>
     </div>

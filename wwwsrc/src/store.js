@@ -17,6 +17,7 @@ let api = Axios.create({
 export default new Vuex.Store({
   state: {
     user: {},
+    keep: {},
     keeps: [],
     vault: [],
     vaults: [],
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     resetState(state) {
       //clear the entire state object of user data
       state.user = {}
+    },
+    setKeep(state, payload) {
+      state.keep = payload
     },
     setKeeps(state, payload) {
       state.keeps = payload
@@ -98,14 +102,16 @@ export default new Vuex.Store({
       }
     },
 
-    async addKeep({ commit, dispatch }, payload) {
-      try {
-        let keeps = await api.post("/vaultKeeps/", payload)
 
+    async getKeepById({ commit }, keepId) {
+      try {
+        let keep = await api.get("/keeps/" + keepId)
+        commit('setKeep', keep.data)
       } catch (e) {
         console.warn(e.message)
       }
     },
+
 
     async createNewKeep({ commit, dispatch }, payload) {
       try {
@@ -195,6 +201,15 @@ export default new Vuex.Store({
       } catch (e) {
         console.warn(e.message)
       }
-    }
+    },
+
+    async addKeep({ commit, dispatch }, payload) {
+      try {
+        let keeps = await api.post("/vaultKeeps/", payload)
+
+      } catch (e) {
+        console.warn(e.message)
+      }
+    },
   }
 })
