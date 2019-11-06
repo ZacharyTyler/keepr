@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:<VERSION>-sdk
+FROM microsoft/dotnet:3.0-sdk
 
 WORKDIR /app
 
